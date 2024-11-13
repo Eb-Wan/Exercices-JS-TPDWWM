@@ -1,3 +1,5 @@
+//Code fait a partir de la première version des consignes
+
 const restaurantName = "En Gaule";      //Nom de restaurant
 const tablesTotal = 20;                 //Tables dispo
 const defaultPrice = 10;                //Prix Moyen
