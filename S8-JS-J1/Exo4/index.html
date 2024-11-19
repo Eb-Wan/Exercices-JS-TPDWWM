@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <section class="Window">
+        <div class="TitleBar">Verificateur de palindrome</div>
+        <div class="WindowBody">
+            <input type="text" id="inputField" placeholder="Entrez votre texte">
+            <p id="outputField">Entrez votre texte et cliquez sur verifier</p>
+            <button id="buttonCheck" onclick="CheckInput()">Verifier!</button>
+        </div>
+    </section>
+
+    <style>
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+
+            padding: 0px;
+            margin: 0px;
+            width: 100vw;
+            height: 100vh;
+        }
+        .Window {
+            width: 400px;
+            height: 250px;
+            border: black 1px solid;
+            border-radius: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .TitleBar {
+            border-bottom: black 1px solid;
+            padding: 10px;
+            text-align: center;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+        }
+        .WindowBody {
+            padding: 25px;
+            text-align: center;
+        }
+        #inputField {
+            width: 100%;
+            border-radius: 10px;
+            padding: 12px;
+            border: black 1px solid;
+            box-sizing: border-box;
+        }
+        #inputField:focus {
+            outline: darkblue 1px solid;
+        }
+        #outputField {
+            font-size: 14px;
+        }
+        #buttonCheck {
+            padding: 12px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background-color 0.2s linear;
+        }
+
+    </style>
+</body>
+</html>
