@@ -5,16 +5,9 @@ const buttonCheck = document.getElementById("buttonCheck");
 buttonCheck.addEventListener("mouseover", () => { buttonCheck.style.backgroundColor="#333333"; buttonCheck.style.cursor="pointer";});
 buttonCheck.addEventListener("mouseout", () => { buttonCheck.style.backgroundColor="black"; buttonCheck.style.cursor="pointer";});
 
-function PrepareString(stringToPrepare) {
-    return (stringToPrepare.toLowerCase().replace(/[\s&\/\\#,+()$~%.'":*?<>{}éèàç]/g, ''));
-}
-function CheckIfPalindrome(stringToCheck) {
-    let reversedString = '';
-    for (let i = (stringToCheck.length - 1); i >= 0; i--) {
-        reversedString += stringToCheck[i];
-    }
-    return (reversedString===stringToCheck);
-}
+let PrepareString = (stringToPrepare) => (stringToPrepare.toLowerCase().replace(/[\s&\/\\#,+()$~%.'":*?<>{}éèàç]/g, ''));
+let CheckIfPalindrome = (stringToCheck) => (stringToCheck===(stringToCheck.split('').reverse().join('')));
+
 function CheckInput () {
     let originalString = inputField.value;
     if (CheckIfPalindrome(PrepareString(originalString))) {
