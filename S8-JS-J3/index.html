@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exo S8 J1 - AFEC</title>
+    <link rel="shortcut icon" href="Favicon.webp" type="image/x-icon">
+    <meta name="description" content="Page contenant tout les exercices JavaScript du 19/11/2024">
+</head>
+<body>
+    <h1>Exercices JS du 19/11/2024</h1>
+    <p>Voici la liste des exercies de la journée</p>
+    <section>
+        <div class="enonce">
+            <h2>Cas pratique : Cibler un élément HTML</h2>
+            <p>Utiliser "onclick" pour changer la couleur d'un &lt;p&gt;</p>
+            <a href="./Exo1/script.js" target="_blank">Voir Le JS >>></a>
+        </div>
+        <iframe title="Exercice 1" src="./Exo1/index.html" width="500px" height="250px" frameborder="0"></iframe>
+    </section>
+    <hr>
+    <style>
+        html{
+            background-color: grey;
+        }
+        body{
+            margin: 64px auto 64px auto;
+            padding: 64px;
+            background-color: white;
+            max-width: 1000px;
+        }
+        body > p{
+            text-align: center;
+        }
+        h1{
+            color: darkblue;
+            text-align: center;
+            font-family: sans-serif;
+            text-decoration: underline;
+            font-style: italic;
+        }
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            margin: 32px;
+        }
+        section > div > p{
+            width: 800px
+        }
+        iframe {
+            border: 1px grey dashed;
+        }
+        .enonce {
+            flex: 1;
+        }
+
+
+    </style>
+</body>
+</html>
