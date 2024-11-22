@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>The Ultimate Tic Tac Toe</h1>
+        <h2></h2>
+    </header>
+    
+    <div class="ticTacToe">
+        <div class="ticTacToeCell" id="0"></div>
+        <div class="ticTacToeCell" id="1"></div>
+        <div class="ticTacToeCell" id="2"></div>
+
+        <div class="ticTacToeCell" id="3"></div>
+        <div class="ticTacToeCell" id="4"></div>
+        <div class="ticTacToeCell" id="5"></div>
+
+        <div class="ticTacToeCell" id="6"></div>
+        <div class="ticTacToeCell" id="7"></div>
+        <div class="ticTacToeCell" id="8"></div>
+    </div>
+
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: sans-serif;
+        }
+        header {
+            height: 128px;
+            border: 1px solid black;
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+        }
+        h1 {
+            text-align: center;
+            font-style: italic;
+            font-family: serif;
+            font-size: 48px;
+            margin: 8px;
+        }
+        h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: normal;
+            font-size: 24px;
+            margin: 8px;
+        }
+        button {
+            margin-left: 24px;
+            padding: 8px;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: lightgray;
+            transition: background-color 0.3s;
+        }
+        .ticTacToe {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            margin: 50px auto 50px auto;
+            border: 1px solid black;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 33%;
+            min-width: 320px;
+            max-width: 800px;
+            aspect-ratio : 1/1;
+        }
+        .ticTacToeCell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dotted black;
+        }
+        .ticTacToeCell:not(#Green):hover {
+            transition: background-color 0.3s;
+            background-color: lightgray;
+        }
+        .icon {
+            width: 50%;
+        }
+        .X {
+            filter: brightness(0) saturate(50%) invert(8%) sepia(100%) saturate(7450%) hue-rotate(247deg) brightness(94%) contrast(144%);
+        }
+        .O {
+            filter: brightness(0) saturate(50%) invert(21%) sepia(94%) saturate(5525%) hue-rotate(0deg) brightness(91%) contrast(128%);
+        }
+        #Green {
+            filter: brightness(0) saturate(100%) invert(24%) sepia(70%) saturate(2655%) hue-rotate(99deg) brightness(97%) contrast(107%);
+        }
+    </style>
+</body>
+</html>
