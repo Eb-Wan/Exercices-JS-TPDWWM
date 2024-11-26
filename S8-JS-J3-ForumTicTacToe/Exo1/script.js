@@ -34,40 +34,42 @@ productForm.addEventListener("submit", function(eventInfos) {
     }
     document.getElementById("ErrorSpan").textContent="OK";
     document.getElementById("ErrorSpan").style.color="green";
+
+    //.replace("<script>", "") Pour ne pas avoir XSS
     let checkTable = `
         <table>
             <tbody>
                 <tr>
                     <td>Nom de l'article</td>
-                    <td>${productName.value}</td>
+                    <td>${productName.value.replace("<script>", "")}</td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td>${productDescription.value}</td>
+                    <td>${productDescription.value.replace("<script>", "")}</td>
                 </tr>
                 <tr>
                     <td>Images</td>
-                    <td>${productImages}</td>
+                    <td>${productImages.replace("<script>", "")}</td>
                 </tr>
                 <tr>
                     <td>Couleurs</td>
-                    <td>${(productColors.value === '') ? "Aucune couleur" : productColors.value}</td>
+                    <td>${(productColors.value === '') ? "Aucune couleur" : productColors.value.replace("<script>", "")}</td>
                 </tr>
                 <tr>
                     <td>Prix</td>
-                    <td>${productPrice.value} €</td>
+                    <td>${productPrice.value.replace("<script>", "")} €</td>
                 </tr>
                 <tr>
                     <td>Matière</td>
-                    <td>${productMaterial.value}</td>
+                    <td>${productMaterial.value.replace("<script>", "")}</td>
                 </tr>
                 <tr>
                     <td>Livraison</td>
-                    <td>${productShipmentFee.value} €</td>
+                    <td>${productShipmentFee.value.replace("<script>", "")} €</td>
                 </tr>
                  <tr>
                     <td>Tailles</td>
-                    <td>${productSizes.value}</td>
+                    <td>${productSizes.value.replace("<script>", "")}</td>
                 </tr>
             </tbody>
         </table>
