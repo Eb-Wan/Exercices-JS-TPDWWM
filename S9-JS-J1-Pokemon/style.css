@@ -1,46 +1,75 @@
 body {
+    --lightred: #FFAAAA;
     --red: #EE5050;
+    --orange: #FE9000;
     --yellow: #FECC00;  /*#FECA1B*/
+    --lightblue: #E0F0FF;
     --blue: #4060AA;
     --darkblue: #3050A0;
     --bright: white;
+    --grey: lightgrey;
     --dark: #2F2F2F;
+
     margin: 0;
     padding: 0;
 
     font-size: 16px;
     font-family: sans-serif;
+
+    position: relative;
 }
 
-button{
+input {
+    border: var(--blue) 2px solid;
+    border-radius: 10px;
+    height: 40px;
+    font-size: 1.5em;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+input:focus{
+    outline: none;
+}
+button {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     background-color: var(--blue);
     border: none;
     height: 40px;
     border-radius: 10px;
     aspect-ratio: 1/1;
 }
-button:hover {
+button:hover:not(:disabled) {
     cursor: pointer;
     background-color: var(--darkblue);
     transition: background-color 0.1s linear;
 }
-
+button:disabled {
+    background-color: var(--grey);
+}
 
 .ButtonIcon {
     filter: brightness(0) saturate(100%) invert(100%) sepia(20%) saturate(7451%) hue-rotate(178deg) brightness(111%) contrast(113%);
     width: 25px;
     aspect-ratio: 1/1;
 }
+.LargerText {
+    font-size: 2em;
+}
 
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    top: 0px;
+    position: sticky;
+    z-index: 1;
     height: 60px;
     padding: 0 16px 0 16px;
 
-    background-color: var(--red);
+    background-color: var(--lightblue);
+    border-bottom: var(--blue) 1px solid;
 }
 .HeaderMainText {
     -webkit-text-fill-color: var(--yellow);
@@ -74,8 +103,7 @@ header {
     flex: 1;
     border: none;
     height: inherit;
-    font-size: 1.5em;
-    padding-left: 10px;
+    border-radius: 0px;
 }
 .HeaderSearchBar button{
     background-color: var(--blue);
@@ -87,23 +115,194 @@ header {
 .HeaderSearchBar button:hover {
     background-color: var(--darkblue);
 }
-.HeaderFilterButton {
+/* .HeaderFilterButton {
 
 }
 .HeaderFavoriteButton {
 
-}
+} */
 
 main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     min-height: calc(100vh - 120px);
+    background-color: var(--bright);
 }
+#CardList {
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 100px;
+    margin: 40px;
+}
+
+@property --shadowposition {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 2px;
+}
+
+.Card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    
+    border-radius: 20px;
+    font-weight: bold;
+
+    width: 250px;
+    height: 350px;
+
+    border: #AAAAAA 3px solid;
+    background-color: #DDDDDD;
+    box-shadow: var(--shadowposition) var(--shadowposition) var(--shadowposition) var(--shadowposition) #AAAAAA;
+
+    transition: --shadowposition 0.5s cubic-bezier(0.4,1,.8,1), transform 0.5s ease-out;
+}
+.Card:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    --shadowposition: 16px;
+    box-shadow: var(--shadowposition) var(--shadowposition) var(--shadowposition) var(--shadowposition) #AAAAAA;
+}
+.Card.DetailsCardAnimation {
+    transform: rotateY(90deg) scale(2);
+    z-index: 2;
+}
+.CardFavorite {
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    width: 50px;
+    height: 50px;
+    filter: brightness(0) saturate(100%) invert(80%) sepia(29%) saturate(1607%) hue-rotate(358deg) brightness(98%) contrast(106%);
+}
+.CardLine {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60px;
+    border-color: inherit;
+}
+.CardName {
+    font-size: 1.5em;
+}
+.CardImage {
+    background-color: var(--bright);
+    border-radius: 10px;
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+.IconType {
+    height: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 15px;
+    border: 2px solid;
+    border-color: inherit;
+    background-color: white;
+}
+
+.PageButtons {
+    display: flex;
+    align-items: center;
+    margin: 16px;
+}
+.PageButtons > *{
+    margin: 4px;
+}
+#PageNumber {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    padding: 4px;
+    text-align: right;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+#PageTotal {
+    font-size: 1.6em;
+}
+
 footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-
+    justify-content: center;
+    gap: 16px;
     height: 60px;
     padding: 0 16px 0 16px;
 
     background-color: var(--dark);
+}
+.FooterLink {
+    color: var(--bright);
+    text-decoration: underline;
+}
+.FooterLink:hover {
+    cursor: pointer;
+}
+
+
+.TypeCombat {
+    border-color: #FF5555;
+    background-color: #FFAAAA;
+}
+.TypeFeu {
+    border-color: #FDBA3F;
+    background-color: #FEE57F;
+}
+.TypeEau {
+    border-color: #88AAFF;
+    background-color: #E0F0FF;
+}
+.TypePoison {
+    border-color: #CC44DD;
+    background-color: #FFBBFF;
+}
+.TypePlante {
+    border-color: #50DD50;
+    background-color: #AAFFAA;
+}
+.TypeSol {
+    border-color: #EE6030;
+    background-color: #F0CC88;
+}
+.TypeÉlectrik {
+    border-color: #EEAA30;
+    background-color: #FFEE55;
+}
+.TypePsy {
+    border-color: #FF6644;
+    background-color: #FFAA88;
+}
+.TypeVol {
+    border-color: #AAAAFF;
+    background-color: #EEEEFF;
+}
+.TypeRoche {
+    border-color: #D1C469;
+    background-color: #F5F0CF;
+}
+.TypeInsecte {
+    border-color: #AADD00;
+    background-color: #DDFF88;
+}
+.TypeFée {
+    border-color: #F28DD7;
+    background-color: #F8C7EF;
+}
+
+@keyframes ZoomWindow {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
 }
