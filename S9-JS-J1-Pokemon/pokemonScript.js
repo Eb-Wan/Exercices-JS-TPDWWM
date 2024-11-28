@@ -46,13 +46,12 @@ PageRight.addEventListener("click", () => {
     ChangePageNumber();
 });
 DomPageNumber.value = 1;
-DomPageNumber.addEventListener("focusout", ChangePageNumber);
 DomPageNumber.addEventListener("keyup", (event) => {
     if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) ChangePageNumber();
 });
 
 async function ChangePageNumber() {
-    if (WindowIsOpen || DomPageNumber.value-1 == PageIndex) return;
+    if (WindowIsOpen) return;
     PageIndex = DomPageNumber.value-1;
     if (PageIndex < 0) {
         PageIndex = 0;
