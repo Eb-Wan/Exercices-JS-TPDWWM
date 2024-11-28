@@ -90,6 +90,7 @@ function ShowError() {
             </div>
     `;
     DetailsWindow.append(CloseWindowButton);
+    WindowIsOpen = true;
 }
 function ShowPokemonDetails(event, id = null) {
     if (WindowIsOpen) return;
