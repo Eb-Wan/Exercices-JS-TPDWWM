@@ -52,6 +52,7 @@ DomPageNumber.addEventListener("keyup", (event) => {
 });
 
 async function ChangePageNumber() {
+    if (WindowIsOpen) return;
     PageIndex = DomPageNumber.value-1;
     if (PageIndex < 0) {
         PageIndex = 0;
