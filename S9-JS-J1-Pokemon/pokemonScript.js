@@ -19,6 +19,7 @@ SearchBar.addEventListener("keydown", SearchBarSearch);
 document.getElementById("SearchButton").addEventListener("click", SearchBarSearch);
 
 function SearchBarSearch(event) {
+    if (WindowIsOpen) return;
     if (event.keyCode == 13) {
         SearchPokemon(this.value);
     } else if (event.detail == 1) {
@@ -26,6 +27,7 @@ function SearchBarSearch(event) {
     }
 }
 
+let WindowIsOpen = false;
 let Data;
 let FilteredData;
 let PageIndex = 0;
@@ -90,6 +92,7 @@ function ShowError() {
     DetailsWindow.append(CloseWindowButton);
 }
 function ShowPokemonDetails(event, id = null) {
+    if (WindowIsOpen) return;
     const DetailsCardAnimation = " DetailsCardAnimation";
     if (id == null) {
         const element = this;
@@ -152,6 +155,7 @@ function ShowPokemonDetails(event, id = null) {
             </div>
     `;
     DetailsWindow.append(CloseWindowButton);
+    WindowIsOpen = true;
 }
 function HidePokemonDetails(event, id = null) {
     const DetailsCardAnimation = " DetailsCardAnimation";
@@ -169,9 +173,11 @@ function HidePokemonDetails(event, id = null) {
     
     DetailsWindow.style.display = "none";
     DetailsWindow.innerHTML = "";
+    WindowIsOpen = false;
 }
 
 async function GetRandomPokemon () {
+    if (WindowIsOpen) return;
     let rndId = Math.round(Math.random() * Data.length);
     DomPageNumber.value = Math.floor(rndId/PageLength) + 1;
     await ChangePageNumber();
