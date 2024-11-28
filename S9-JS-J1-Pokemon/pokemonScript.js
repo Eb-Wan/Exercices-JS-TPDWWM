@@ -7,21 +7,30 @@
 //Do Search
 //Error Handler
 
-RequestPokemonApi();
-
 const DomPageButtons = document.getElementById("PageButtons");
 const DomPageNumber = document.getElementById("PageNumber");
 const DomPageTotal = document.getElementById("PageTotal");
 const DomMain = document.querySelector("main");
 const PageLeft = document.getElementById("PageLeft");
 const PageRight = document.getElementById("PageRight");
+const DetailsWindow = document.getElementById("Details");
+const SearchBar = document.getElementById("SearchBar")
+SearchBar.addEventListener("keydown", SearchBarSearch);
+document.getElementById("SearchButton").addEventListener("click", SearchBarSearch);
+
+function SearchBarSearch(event) {
+    if (event.keyCode == 13) {
+        SearchPokemon(this.value);
+    } else if (event.detail == 1) {
+        SearchPokemon(SearchBar.value);
+    }
+}
 
 let Data;
+let FilteredData;
 let PageIndex = 0;
 let PageLength = 18;
 let PagesMax;
-
-InitialApiCall();
 
 document.getElementById("RandomPokemon").addEventListener("click", GetRandomPokemon);
 
@@ -42,7 +51,6 @@ DomPageNumber.addEventListener("keyup", (event) => {
 
 async function ChangePageNumber() {
     PageIndex = DomPageNumber.value-1;
-    console.log(PageIndex);
     if (PageIndex < 0) {
         PageIndex = 0;
         DomPageNumber.value = 1;
@@ -66,26 +74,101 @@ async function ChangePageNumber() {
 function DisplayHomePage() {
     CreatePokemonCardList();
 }
-
-function ShowPokemonDetails(envent, id = null) {
+function ShowError() {
+    const CloseWindowButton = document.createElement("img");
+    CloseWindowButton.className = "DetailsClose";
+    CloseWindowButton.id = "Show" + 1;
+    CloseWindowButton.src = "./icons/x-circle-fill.svg";
+    CloseWindowButton.alt="Icône fermer la fenêtre";
+    CloseWindowButton.addEventListener("click", HidePokemonDetails);
+    DetailsWindow.style.display = "flex";
+    DetailsWindow.innerHTML = `
+            <div class="DetailsWindowBody">
+                <div class="DetailsBottomDiv"><h1>Ce pokémon n'existe pas</h1></div>
+            </div>
+    `;
+    DetailsWindow.append(CloseWindowButton);
+}
+function ShowPokemonDetails(event, id = null) {
+    const DetailsCardAnimation = " DetailsCardAnimation";
     if (id == null) {
-        const DetailsCardAnimation = " DetailsCardAnimation";
         const element = this;
         id = element.id;
         element.className += DetailsCardAnimation;
     }
-    if (id != null || id != undefined) {
-       //
-       ScrollToCard(id);
-
+    if (id == null || id == undefined) {
+        return;
     }
-    console.log(id);
+    if (event == null) {
+        const element = document.getElementById(id);
+        id = element.id;
+        element.className += DetailsCardAnimation;
+    }
+    ScrollToCard(id);
+    const element = Data[id - 1];
+    let Types = "";
+    let Evolutions = "";
+    for (let i = 0; i < element.apiTypes.length; i++) {
+        Types += `<li><img class="Icon" src="${element.apiTypes[i].image}" alt="${element.apiTypes[i].name}">${element.apiTypes[i].name}</li>`;
+    }
+    for (let i = 0; i < element.apiEvolutions.length; i++) {
+        Evolutions += `<li class="Link" id="" onClick="GoToPokemon(${element.apiEvolutions[i].pokedexId})">${element.apiEvolutions[i].name}</li>`;
+    }
+
+    const CloseWindowButton = document.createElement("img");
+    CloseWindowButton.className = "DetailsClose";
+    CloseWindowButton.id = "Show" + id;
+    CloseWindowButton.src = "./icons/x-circle-fill.svg";
+    CloseWindowButton.alt="Icône fermer la fenêtre";
+    CloseWindowButton.addEventListener("click", HidePokemonDetails);
+    DetailsWindow.style.display = "flex";
+    DetailsWindow.innerHTML = `
+            <div class="DetailsWindowBody">
+                <div class="DetailsTopDiv">
+                    <img class="DetailsImage" src="${element.image}"></img>
+                    <div class="DetailsDescription">
+                        <p>${element.name}</p>
+                        <ul>
+                            <li>Id: ${element.id}</li>
+                            <li>Generation: ${element.apiGeneration}</li>
+                            <li>PV: ${element.stats.HP}</li>
+                            <li>Attaque: ${element.stats.attack}</li>
+                            <li>Défense: ${element.stats.defense}</li>
+                        </ul>
+                        <p>Types</p>
+                        <ul class="DetailsType">
+                            ${Types}
+                        </ul>
+                        
+                    </div>
+                </div>
+                <div class="DetailsBottomDiv">
+                    <hr>
+                    <p>Évolution(s)</p>
+                    <ul>
+                        ${Evolutions != "" ? Evolutions : "Aucune autre évolution"}
+                    </ul>
+                </div>
+            </div>
+    `;
+    DetailsWindow.append(CloseWindowButton);
 }
-function HidePokemonDetails(id) {
+function HidePokemonDetails(event, id = null) {
     const DetailsCardAnimation = " DetailsCardAnimation";
-    const element = document.getElementById(id);
-    element.className = element.className.replace(DetailsCardAnimation, "");
-    console.log("OK2!");
+    if (id == null) {
+        const element = this;
+        id = parseInt(element.id.replace("Show", ""));
+    }
+    if (id == null || id == undefined) {
+        return;
+    }
+    if (event != null) {
+        const element = document.getElementById(id);
+        element.className = element.className.replace(DetailsCardAnimation, "");
+    }
+    
+    DetailsWindow.style.display = "none";
+    DetailsWindow.innerHTML = "";
 }
 
 async function GetRandomPokemon () {
@@ -93,19 +176,25 @@ async function GetRandomPokemon () {
     DomPageNumber.value = Math.floor(rndId/PageLength) + 1;
     await ChangePageNumber();
     ScrollToCard(rndId);
-    ShowPokemonDetails(rndId)
+    ShowPokemonDetails(null, rndId);
+}
+async function GoToPokemon (id) {
+    HidePokemonDetails(null, id);
+    if (id%PageLength == 0) DomPageNumber.value = Math.floor((id-1)/PageLength) + 1;
+    else DomPageNumber.value = Math.floor(id/PageLength) + 1;
+    await ChangePageNumber();
+    ScrollToCard(id);
+    ShowPokemonDetails(null, id);
 }
 function ScrollToCard(id) {
     document.getElementById(id.toString()).scrollIntoView({behavior: "smooth", block: "center"});
 }
 
-async function CreatePokemonCardList(filters=null) {
-    Data = await RequestPokemonApi();
-
+async function CreatePokemonCardList() {
     const Star = `<img class="IconButton CardFavorite" src="./icons/star-fill.svg" alt="Icône étoile">`;
     let ArrayOffset = PageIndex * PageLength;
-    let SlicedData = Data.slice(ArrayOffset, ArrayOffset + PageLength);;
-
+    const SlicedData = Data.slice(ArrayOffset, ArrayOffset + PageLength);
+    
     let CardList = document.createElement("section");
     CardList.id = "CardList";
     let Card = "";
@@ -146,15 +235,26 @@ async function CreatePokemonCardList(filters=null) {
     DomMain.prepend(CardList);
 }
 
-function RequestPokemonApi() {
-    return new Promise((resolve) => {
-        fetch("./pokemon.json")
-        .then(data => resolve (data.json()))
-        // .then(json =>  (JSON.stringify(json)))
-        .catch(error => console.log(error));
-    });
+async function SearchPokemon(name = undefined) {
+    if (name == undefined || name == "") {
+        return;
+    }
+    fetch("https://pokebuildapi.fr/api/v1/pokemon/"+name)
+        .then(data => {
+            if (data.ok) return data.json();
+            else if (data.status === 500) ShowError();
+        })
+        .then(json => {
+            FilteredData = JSON.parse(JSON.stringify(json));
+            GoToPokemon(FilteredData.id);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    
 }
-function InitialApiCall() {
+function Start() {
+    //fetch("https://pokebuildapi.fr/api/v1/pokemon")
     fetch("./pokemon.json")
     .then(data => data.json())
     .then(json => {
@@ -162,8 +262,8 @@ function InitialApiCall() {
         PagesMax = Math.floor(Data.length / PageLength);
         DomPageTotal.textContent = "/ " + (PagesMax + 1);
         DomPageNumber.max = PagesMax+1;
+        DisplayHomePage();
     })
     .catch(error => console.log(error));
 }
-RequestPokemonApi();
-DisplayHomePage();
+Start();

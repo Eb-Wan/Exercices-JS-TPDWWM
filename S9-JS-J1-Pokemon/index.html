@@ -13,15 +13,14 @@
     <header>
        <p class="HeaderMainText">The Basic Pokedex</p>
        <div class="HeaderDiv">
-            <div class="HeaderSearchBar"><input type="text"><button><img class="ButtonIcon" src="./icons/search.svg" alt="Bouton de recherche"></button></div>
+            <div class="HeaderSearchBar"><input id="SearchBar" type="text"><button id="SearchButton"><img class="ButtonIcon" src="./icons/search.svg" alt="Bouton de recherche"></button></div>
             <div class="HeaderFilterButton"><button><img class="ButtonIcon" src="./icons/filter-square.svg" alt="Bouton de filtres"></button></div>
             <div class="HeaderFavoriteButton"><button><img class="ButtonIcon" src="./icons/star-half.svg" alt="Bouton des Favoris"></button></div>
        </div>
     </header>
     <main>
-        <!-- <section id="CardList" style="display: grid;"></section> -->
-        <section id="Details" style="display: visible">
-            
+        <section class="PokemonDetails" id="Details" style="display: none">
+            <img class="DetailsClose" id="CloseWindowButton" src="./icons/x-circle-fill.svg" alt="Icône fermer la fenêtre">
         </section>
         <section class="PageButtons">
             <button id="PageLeft"><img class="ButtonIcon" src="./icons/arrow-left-circle.svg" alt="Bouton des Favoris"></button>

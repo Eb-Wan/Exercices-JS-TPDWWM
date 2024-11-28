@@ -57,6 +57,10 @@ button:disabled {
 .LargerText {
     font-size: 2em;
 }
+.Link {
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 header {
     display: flex;
@@ -158,9 +162,10 @@ main {
 
     border: #AAAAAA 3px solid;
     background-color: #DDDDDD;
+    opacity: 1;
     box-shadow: var(--shadowposition) var(--shadowposition) var(--shadowposition) var(--shadowposition) #AAAAAA;
 
-    transition: --shadowposition 0.5s cubic-bezier(0.4,1,.8,1), transform 0.5s ease-out;
+    transition: opacity 0.5s ease-out, --shadowposition 0.5s cubic-bezier(0.4,1,.8,1), transform 0.5s ease-out;
 }
 .Card:hover {
     cursor: pointer;
@@ -169,8 +174,9 @@ main {
     box-shadow: var(--shadowposition) var(--shadowposition) var(--shadowposition) var(--shadowposition) #AAAAAA;
 }
 .Card.DetailsCardAnimation {
-    transform: rotateY(90deg) scale(2);
+    transform: rotateY(180deg) scale(2);
     z-index: 2;
+    opacity: 0;
 }
 .CardFavorite {
     position: absolute;
@@ -207,6 +213,99 @@ main {
     border: 2px solid;
     border-color: inherit;
     background-color: white;
+}
+.PokemonDetails {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+
+    height: 90vh;
+    aspect-ratio: 4/3;
+
+    min-width: 640px;
+    min-height: 480px;
+}
+.DetailsWindowBody {
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 90vh;
+    aspect-ratio: 4/3;
+
+    min-width: 640px;
+    min-height: 480px;
+
+    background-color: var(--bright);
+    border: var(--red) 1px solid;
+    border-radius: 20px;
+    box-sizing: border-box;
+
+    /* transition: transform 0.3s linear; */
+    animation-name: WindowZoom;
+    animation-duration: 0.5s;
+}
+@keyframes WindowZoom {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.DetailsClose {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 40px;
+    height: 40px;
+    
+    filter: brightness(0) saturate(100%) invert(57%) sepia(54%) saturate(6506%) hue-rotate(332deg) brightness(98%) contrast(93%);
+}
+.DetailsClose:hover {
+    cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(24%) sepia(13%) saturate(2096%) hue-rotate(314deg) brightness(112%) contrast(87%);
+}
+.DetailsTopDiv {
+    display: flex;
+    align-items: start;
+    width: 100%;
+}
+.DetailsImage {
+    width: 40%;
+    aspect-ratio: 1/1;
+    background-color: var(--bright);
+    border-radius: 20px;
+}
+.DetailsDescription {
+    width: 60%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.PokemonDetails p {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.DetailsType li{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    margin: 8px;
+}
+.DetailsType img{
+    height: 40px;
+    aspect-ratio: 1/1;
+}
+.DetailsBottomDiv {
+    padding: 20px;
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .PageButtons {
@@ -296,13 +395,4 @@ footer {
 .TypeFée {
     border-color: #F28DD7;
     background-color: #F8C7EF;
-}
-
-@keyframes ZoomWindow {
-    from {
-        transform: scale(0);
-    }
-    to {
-        transform: scale(1);
-    }
 }
