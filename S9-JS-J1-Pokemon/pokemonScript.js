@@ -77,7 +77,7 @@ function DisplayHomePage() {
 function ShowError() {
     const CloseWindowButton = document.createElement("img");
     CloseWindowButton.className = "DetailsClose";
-    CloseWindowButton.id = "Show" + 1;
+    CloseWindowButton.id = "Show" + ((PageIndex+1)*PageLength);
     CloseWindowButton.src = "./icons/x-circle-fill.svg";
     CloseWindowButton.alt="Icône fermer la fenêtre";
     CloseWindowButton.addEventListener("click", HidePokemonDetails);
@@ -254,8 +254,8 @@ async function SearchPokemon(name = undefined) {
     
 }
 function Start() {
-    //fetch("https://pokebuildapi.fr/api/v1/pokemon")
-    fetch("./pokemon.json")
+    fetch("https://pokebuildapi.fr/api/v1/pokemon")
+    // fetch("./pokemon.json")
     .then(data => data.json())
     .then(json => {
         Data = JSON.parse(JSON.stringify(json));
