@@ -181,7 +181,7 @@ main {
 .CardFavorite {
     position: absolute;
     top: -25px;
-    right: -25px;
+    left: -25px;
     width: 50px;
     height: 50px;
     filter: brightness(0) saturate(100%) invert(80%) sepia(29%) saturate(1607%) hue-rotate(358deg) brightness(98%) contrast(106%);
@@ -255,20 +255,47 @@ main {
         transform: scale(1);
     }
 }
-
-.DetailsClose {
+.WindowButtonLeft {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    border-radius: 50%;
+    background-color: var(--bright);
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+    border: var(--red) 1px solid;
+ }
+ .WindowButtonRight {
     position: absolute;
     top: -20px;
     right: -20px;
+    border-radius: 50%;
+    background-color: var(--bright);
     width: 40px;
     height: 40px;
-    
+    padding: 4px;
+    border: var(--red) 1px solid;
+ }
+.DetailsClose {
+    width: inherit;
+    height: inherit;
     filter: brightness(0) saturate(100%) invert(57%) sepia(54%) saturate(6506%) hue-rotate(332deg) brightness(98%) contrast(93%);
 }
 .DetailsClose:hover {
     cursor: pointer;
     filter: brightness(0) saturate(100%) invert(24%) sepia(13%) saturate(2096%) hue-rotate(314deg) brightness(112%) contrast(87%);
 }
+.DetailsFavourite {
+    width: inherit;
+    height: inherit;
+    filter: brightness(0) saturate(100%) invert(87%) sepia(22%) saturate(3732%) hue-rotate(355deg) brightness(98%) contrast(108%);
+}
+.DetailsFavourite:hover {
+    cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(27%) sepia(81%) saturate(1976%) hue-rotate(42deg) brightness(100%) contrast(101%);
+}
+
 .DetailsTopDiv {
     display: flex;
     align-items: start;

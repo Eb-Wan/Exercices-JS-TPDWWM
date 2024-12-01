@@ -1,12 +1,5 @@
 /* J'ai jamais joué a pokemon mais bon vas-y lets go c'est parti */
 
-//api/v1/pokemon/limit/100
-
-//Do Details
-//Do Favorites
-//Do Search
-//Error Handler
-
 const DomPageButtons = document.getElementById("PageButtons");
 const DomPageNumber = document.getElementById("PageNumber");
 const DomPageTotal = document.getElementById("PageTotal");
@@ -14,25 +7,20 @@ const DomMain = document.querySelector("main");
 const PageLeft = document.getElementById("PageLeft");
 const PageRight = document.getElementById("PageRight");
 const DetailsWindow = document.getElementById("Details");
-const SearchBar = document.getElementById("SearchBar")
+const SearchBar = document.getElementById("SearchBar");
 SearchBar.addEventListener("keydown", SearchBarSearch);
 document.getElementById("SearchButton").addEventListener("click", SearchBarSearch);
-
-function SearchBarSearch(event) {
-    if (WindowIsOpen) return;
-    if (event.keyCode == 13) {
-        SearchPokemon(this.value);
-    } else if (event.detail == 1) {
-        SearchPokemon(SearchBar.value);
-    }
-}
+document.getElementById("Favorite").addEventListener("click", DisplayFavoriteList);
 
 let WindowIsOpen = false;
+let IsListingFavorites = false;
 let Data;
 let FilteredData;
+let SearchData;
 let PageIndex = 0;
 let PageLength = 18;
 let PagesMax;
+let CheckLocalStorageError = false;
 
 document.getElementById("RandomPokemon").addEventListener("click", GetRandomPokemon);
 
@@ -50,38 +38,37 @@ DomPageNumber.addEventListener("keyup", (event) => {
     if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) ChangePageNumber();
 });
 
+function SearchBarSearch(event) {
+    if (WindowIsOpen) return;
+    if (event.keyCode == 13) {
+        SearchPokemon(this.value);
+    } else if (event.detail == 1) {
+        SearchPokemon(SearchBar.value);
+    }
+}
+
 async function ChangePageNumber() {
     if (WindowIsOpen) return;
     PageIndex = DomPageNumber.value-1;
     if (PageIndex < 0) {
         PageIndex = 0;
         DomPageNumber.value = 1;
-    }
-    else if (PageIndex > PagesMax) {
+    } else if (PageIndex > PagesMax) {
         PageIndex = PagesMax;
         DomPageNumber.value = PagesMax+1;
-    } else if (PageIndex == 0) {
-        PageLeft.disabled = true;
-        await CreatePokemonCardList();
-    } else if (PagesMax == 0) {
-        PageRight.disabled = true;
-        await CreatePokemonCardList();
     } else {
-        PageLeft.disabled = false;
-        PageRight.disabled = false;
+        if (PageIndex == 0) PageLeft.disabled = true;
+        else PageLeft.disabled = false;
+        if (PageIndex >= PagesMax) PageRight.disabled = true;
+        else PageRight.disabled = false;
         await CreatePokemonCardList();
     }
 }
 
-function DisplayHomePage() {
-    CreatePokemonCardList();
-}
 function ShowError() {
-    const CloseWindowButton = document.createElement("img");
-    CloseWindowButton.className = "DetailsClose";
-    CloseWindowButton.id = "Show" + ((PageIndex+1)*PageLength);
-    CloseWindowButton.src = "./icons/x-circle-fill.svg";
-    CloseWindowButton.alt="Icône fermer la fenêtre";
+    const CloseWindowButton = document.createElement("div");
+    CloseWindowButton.className = "WindowButtonRight";
+    CloseWindowButton.innerHTML = (`<img class="DetailsClose" id="Hide${(PageIndex+1)*PageLength}" src="./icons/x-circle-fill.svg" alt="Icône fermer la fenêtre">`);
     CloseWindowButton.addEventListener("click", HidePokemonDetails);
     DetailsWindow.style.display = "flex";
     DetailsWindow.innerHTML = `
@@ -95,19 +82,20 @@ function ShowError() {
 function ShowPokemonDetails(event, id = null) {
     if (WindowIsOpen) return;
     const DetailsCardAnimation = " DetailsCardAnimation";
+    const FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
+    
     if (id == null) {
         const element = this;
         id = element.id;
         element.className += DetailsCardAnimation;
     }
-    if (id == null || id == undefined) {
-        return;
-    }
+    if (id == null || id == undefined) return;
     if (event == null) {
         const element = document.getElementById(id);
         id = element.id;
         element.className += DetailsCardAnimation;
     }
+    id = parseInt(id);
     ScrollToCard(id);
     const element = Data[id - 1];
     let Types = "";
@@ -118,13 +106,15 @@ function ShowPokemonDetails(event, id = null) {
     for (let i = 0; i < element.apiEvolutions.length; i++) {
         Evolutions += `<li class="Link" id="" onClick="GoToPokemon(${element.apiEvolutions[i].pokedexId})">${element.apiEvolutions[i].name}</li>`;
     }
-
-    const CloseWindowButton = document.createElement("img");
-    CloseWindowButton.className = "DetailsClose";
-    CloseWindowButton.id = "Show" + id;
-    CloseWindowButton.src = "./icons/x-circle-fill.svg";
-    CloseWindowButton.alt="Icône fermer la fenêtre";
+    const CloseWindowButton = document.createElement("div");
+    CloseWindowButton.className = "WindowButtonRight";
+    CloseWindowButton.innerHTML = (`<img class="DetailsClose" id="Hide${id}" src="./icons/x-circle-fill.svg" alt="Icône fermer la fenêtre">`);
     CloseWindowButton.addEventListener("click", HidePokemonDetails);
+    const FavouriteWindowButton = document.createElement("div");
+    FavouriteWindowButton.className = "WindowButtonLeft";
+    FavouriteWindowButton.innerHTML = (`<img class="DetailsFavourite" id="Favorite${id}" src="${FavoritePokemon.PokemonList.includes(id) ? './icons/star-fill.svg' : './icons/star.svg'}" alt="Icône favoris">`);
+    FavouriteWindowButton.addEventListener("click", PokemonToFavorite);
+
     DetailsWindow.style.display = "flex";
     DetailsWindow.innerHTML = `
             <div class="DetailsWindowBody">
@@ -156,13 +146,14 @@ function ShowPokemonDetails(event, id = null) {
             </div>
     `;
     DetailsWindow.append(CloseWindowButton);
+    DetailsWindow.append(FavouriteWindowButton);
     WindowIsOpen = true;
 }
 function HidePokemonDetails(event, id = null) {
     const DetailsCardAnimation = " DetailsCardAnimation";
     if (id == null) {
-        const element = this;
-        id = parseInt(element.id.replace("Show", ""));
+        const element = this.firstChild;
+        id = parseInt(element.id.replace("Hide", ""));
     }
     if (id == null || id == undefined) {
         return;
@@ -177,16 +168,39 @@ function HidePokemonDetails(event, id = null) {
     WindowIsOpen = false;
 }
 
+function PokemonToFavorite () {
+    if (CheckLocalStorageError) return;
+    const element = this.firstChild;
+    const id = parseInt(element.id.replace("Favorite", ""));
+    let FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
+    if (FavoritePokemon.PokemonList.includes(id)) {
+        FavoritePokemon.PokemonList = RemoveArrayData(FavoritePokemon.PokemonList, id);
+        element.src="./icons/star.svg";
+    }
+    else {
+        FavoritePokemon.PokemonList.push(id);
+        element.src="./icons/star-fill.svg";
+    }
+    localStorage.setItem ("FavoritePokemon", JSON.stringify(FavoritePokemon));
+    CreatePokemonCardList();
+}
+
+function TestF () {
+    let FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
+    console.log (FavoritePokemon);
+}
+
 async function GetRandomPokemon () {
     if (WindowIsOpen) return;
-    let rndId = Math.round(Math.random() * Data.length);
+    ResetList();
+    let rndId = Math.round(Math.random() * FilteredData.length);
     DomPageNumber.value = Math.floor(rndId/PageLength) + 1;
     await ChangePageNumber();
     ScrollToCard(rndId);
     ShowPokemonDetails(null, rndId);
 }
 async function GoToPokemon (id) {
-    HidePokemonDetails(null, id);
+    if (WindowIsOpen == true) HidePokemonDetails(null, id);
     if (id%PageLength == 0) DomPageNumber.value = Math.floor((id-1)/PageLength) + 1;
     else DomPageNumber.value = Math.floor(id/PageLength) + 1;
     await ChangePageNumber();
@@ -200,32 +214,28 @@ function ScrollToCard(id) {
 async function CreatePokemonCardList() {
     const Star = `<img class="IconButton CardFavorite" src="./icons/star-fill.svg" alt="Icône étoile">`;
     let ArrayOffset = PageIndex * PageLength;
-    const SlicedData = Data.slice(ArrayOffset, ArrayOffset + PageLength);
+    const FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
+    const SlicedData = FilteredData.slice(ArrayOffset, ArrayOffset + PageLength);
+    let ListTitle = document.createElement("h1");
+    if (IsListingFavorites) ListTitle.textContent="Pokémon favoris :";
+    else ListTitle.textContent="Tous les Pokémons ("+Data.length+"):";
     
     let CardList = document.createElement("section");
     CardList.id = "CardList";
     let Card = "";
-
-    let Id;
-    let Name;
-    let HP;
-    let Image;
-    let Type;
-    let TypeImage;
-    
     SlicedData.forEach(element => {
-        Id = element.id;
-        Name = element.name;
-        HP = element.stats.HP;
-        Image = element.image;
-        Type = element.apiTypes[0].name;
-        TypeImage = element.apiTypes[0].image;
+        let Id = element.id;
+        let Name = element.name;
+        let HP = element.stats.HP;
+        let Image = element.image;
+        let Type = element.apiTypes[0].name;
+        let TypeImage = element.apiTypes[0].image;
         Card = document.createElement("div");
         Card.id = Id;
         Card.className = `Card Type${Type}`;
         Card.innerHTML = `
                 <img class="CardImage" src="${Image}" loading="lazy" width="250px" height="250px" alt="Illustration Du Pokedex">
-                ${false ? Star : ""}
+                ${FavoritePokemon.PokemonList.includes(Id) ? Star : ""}
                 <div class="CardLine">
                     <p class="CardName">${Name}</p>
                     <p><span class="LargerText">${HP}</span> PV</p>
@@ -238,38 +248,114 @@ async function CreatePokemonCardList() {
         Card.addEventListener("click", ShowPokemonDetails);
         CardList.appendChild(Card);
     });
-    DomMain.removeChild(DomMain.firstChild);
-    DomMain.prepend(CardList);
+    const OldList = document.getElementById("CardList");
+    const OldTitle = document.querySelector("h1");
+    DomMain.replaceChild(CardList, OldList);
+    DomMain.replaceChild(ListTitle, OldTitle);
 }
 
 async function SearchPokemon(name = undefined) {
     if (name == undefined || name == "") {
         return;
     }
+    ResetList();
+    FilteredData = Data;
     fetch("https://pokebuildapi.fr/api/v1/pokemon/"+name)
         .then(data => {
             if (data.ok) return data.json();
             else if (data.status === 500) ShowError();
         })
         .then(json => {
-            FilteredData = JSON.parse(JSON.stringify(json));
-            GoToPokemon(FilteredData.id);
+            SearchData = JSON.parse(JSON.stringify(json));
+            GoToPokemon(SearchData.id);
         })
         .catch(error => {
             console.log(error);
         });
-    
 }
+
+function CheckLocalStorageFavorite() {
+    let FavoriteList = localStorage.getItem ("FavoritePokemon");
+    if (IsJsonString(FavoriteList) == false) {
+        if (CheckLocalStorageError) return;
+        CheckLocalStorageError = true;
+        localStorage.setItem ("FavoritePokemon", '{"PokemonList":[]}');
+        CheckLocalStorageFavorite();
+    }
+    CheckLocalStorageError = false;
+    FavoriteList = JSON.parse(FavoriteList);
+    if (!("PokemonList" in FavoriteList) || !(Array.isArray(FavoriteList.PokemonList))) {
+        if (CheckLocalStorageError) return;
+        CheckLocalStorageError = true;
+        localStorage.setItem ("FavoritePokemon", '{"PokemonList":[]}');
+        CheckLocalStorageFavorite();
+    }
+    for(let i = 0; i < FavoriteList.PokemonList.length; i++) {
+        if (FavoriteList.PokemonList[i] <= 0 || FavoriteList.PokemonList[i] > Data.length) FavoriteList.PokemonList.splice(i, 1);
+        
+    }
+    localStorage.setItem ("FavoritePokemon", JSON.stringify(FavoriteList));
+    CheckLocalStorageError = false;
+}
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+function DisplayFavoriteList() {
+    if (IsListingFavorites) {
+        ResetList();
+        return;
+    }
+    IsListingFavorites = true;
+    const FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
+    FilteredData = [];
+    for (let i = 0; i < FavoritePokemon.PokemonList.length; i++) {
+        FilteredData.push(Data[FavoritePokemon.PokemonList[i] - 1]);
+    }
+    PagesMax = Math.floor(FilteredData.length / PageLength);
+    DomPageTotal.textContent = "/ " + (PagesMax + 1);
+    DomPageNumber.max = PagesMax+1;
+    CreatePokemonCardList();
+    DomPageNumber.value = 1;
+    ChangePageNumber();
+}
+function ResetList() {
+    IsListingFavorites = false;
+    FilteredData = Data;
+    PagesMax = Math.floor(FilteredData.length / PageLength);
+    DomPageTotal.textContent = "/ " + (PagesMax + 1);
+    DomPageNumber.max = PagesMax+1;
+    CheckLocalStorageFavorite();
+    CreatePokemonCardList();
+    DomPageNumber.value = 1;
+    ChangePageNumber();
+}
+function RemoveArrayData(array, value) {
+    let index = array.indexOf(value);
+    if (index !== -1) {
+        array.splice(index, 1);
+        return array;
+    }
+}
+
 function Start() {
-    fetch("https://pokebuildapi.fr/api/v1/pokemon")
-    // fetch("./pokemon.json")
+    // fetch("https://pokebuildapi.fr/api/v1/pokemon")
+    fetch ("./pokemon.json")
     .then(data => data.json())
     .then(json => {
         Data = JSON.parse(JSON.stringify(json));
-        PagesMax = Math.floor(Data.length / PageLength);
+        FilteredData = Data;
+        PagesMax = Math.floor(FilteredData.length / PageLength);
         DomPageTotal.textContent = "/ " + (PagesMax + 1);
         DomPageNumber.max = PagesMax+1;
-        DisplayHomePage();
+        CheckLocalStorageFavorite();
+        CreatePokemonCardList();
+        DomPageNumber.value = 1;
+        ChangePageNumber();
     })
     .catch(error => console.log(error));
 }
