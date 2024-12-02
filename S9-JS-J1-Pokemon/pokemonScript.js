@@ -291,8 +291,8 @@ function DisplayFavoriteList() {
     UpdatePageList("Pokémon favoris ");
 }
 function DisplayFilterList (event) {
-    if (WindowIsOpen) return;
     event.preventDefault();
+    if (WindowIsOpen) return;
     IsListingFavorites = false;
     this.style.display = "none";
     const FiltersData = new FormData(this);
