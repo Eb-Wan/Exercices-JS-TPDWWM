@@ -11,6 +11,17 @@ const SearchBar = document.getElementById("SearchBar");
 SearchBar.addEventListener("keydown", SearchBarSearch);
 document.getElementById("SearchButton").addEventListener("click", SearchBarSearch);
 document.getElementById("Favorite").addEventListener("click", DisplayFavoriteList);
+document.getElementById("FiltersMenu").addEventListener("submit", DisplayFilterList);
+document.getElementById("FiltersButton").addEventListener("click", () => {
+    if (WindowIsOpen) return;
+    const Menu = document.getElementById("FiltersMenu");
+    if (Menu.style.display == "none") {
+        Menu.style.display = "flex";
+    } else {
+        Menu.style.display = "none";
+    }
+});
+
 
 let WindowIsOpen = false;
 let IsListingFavorites = false;
@@ -65,15 +76,15 @@ async function ChangePageNumber() {
     }
 }
 
-function ShowError() {
+function ShowError(text) {
     const CloseWindowButton = document.createElement("div");
     CloseWindowButton.className = "WindowButtonRight";
-    CloseWindowButton.innerHTML = (`<img class="DetailsClose" id="Hide${(PageIndex+1)*PageLength}" src="./icons/x-circle-fill.svg" alt="Icône fermer la fenêtre">`);
+    CloseWindowButton.innerHTML = (`<img class="DetailsClose" id="Hide0" src="./icons/x-circle-fill.svg" alt="Icône fermer la fenêtre">`);
     CloseWindowButton.addEventListener("click", HidePokemonDetails);
     DetailsWindow.style.display = "flex";
     DetailsWindow.innerHTML = `
             <div class="DetailsWindowBody">
-                <div class="DetailsBottomDiv"><h1>Ce pokémon n'existe pas</h1></div>
+                <div class="DetailsBottomDiv"><h1>${text}</h1></div>
             </div>
     `;
     DetailsWindow.append(CloseWindowButton);
@@ -158,7 +169,7 @@ function HidePokemonDetails(event, id = null) {
     if (id == null || id == undefined) {
         return;
     }
-    if (event != null) {
+    if (event != null && id != 0) {
         const element = document.getElementById(id);
         element.className = element.className.replace(DetailsCardAnimation, "");
     }
@@ -185,11 +196,6 @@ function PokemonToFavorite () {
     CreatePokemonCardList();
 }
 
-function TestF () {
-    let FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
-    console.log (FavoritePokemon);
-}
-
 async function GetRandomPokemon () {
     if (WindowIsOpen) return;
     ResetList();
@@ -201,6 +207,7 @@ async function GetRandomPokemon () {
 }
 async function GoToPokemon (id) {
     if (WindowIsOpen == true) HidePokemonDetails(null, id);
+    ResetList();
     if (id%PageLength == 0) DomPageNumber.value = Math.floor((id-1)/PageLength) + 1;
     else DomPageNumber.value = Math.floor(id/PageLength) + 1;
     await ChangePageNumber();
@@ -216,9 +223,6 @@ async function CreatePokemonCardList() {
     let ArrayOffset = PageIndex * PageLength;
     const FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
     const SlicedData = FilteredData.slice(ArrayOffset, ArrayOffset + PageLength);
-    let ListTitle = document.createElement("h1");
-    if (IsListingFavorites) ListTitle.textContent="Pokémon favoris :";
-    else ListTitle.textContent="Tous les Pokémons ("+Data.length+"):";
     
     let CardList = document.createElement("section");
     CardList.id = "CardList";
@@ -258,12 +262,11 @@ async function SearchPokemon(name = undefined) {
     if (name == undefined || name == "") {
         return;
     }
-    ResetList();
-    FilteredData = Data;
+    FilteredData = [...Data];
     fetch("https://pokebuildapi.fr/api/v1/pokemon/"+name)
         .then(data => {
             if (data.ok) return data.json();
-            else if (data.status === 500) ShowError();
+            else if (data.status === 500) ShowError("Ce pokémon n'existe pas.");
         })
         .then(json => {
             SearchData = JSON.parse(JSON.stringify(json));
@@ -272,6 +275,55 @@ async function SearchPokemon(name = undefined) {
         .catch(error => {
             console.log(error);
         });
+}
+function DisplayFavoriteList() {
+    if (WindowIsOpen) return;
+    if (IsListingFavorites) {
+        ResetList();
+        return;
+    }
+    IsListingFavorites = true;
+    const FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
+    FilteredData = [];
+    for (let i = 0; i < FavoritePokemon.PokemonList.length; i++) {
+        FilteredData.push(Data[FavoritePokemon.PokemonList[i] - 1]);
+    }
+    UpdatePageList("Pokémon favoris ");
+}
+function DisplayFilterList (event) {
+    if (WindowIsOpen) return;
+    event.preventDefault();
+    IsListingFavorites = false;
+    this.style.display = "none";
+    const FiltersData = new FormData(this);
+    const OrderBy = FiltersData.get("OrderBy");
+    const Filter = FiltersData.get("FilterType");
+    const FilterValue = Filter.replace("Filter", "")
+    FilteredData = [...Data];
+    if ((OrderBy == "OrderById") && (Filter == "FilterAll")) {
+        ResetList();
+        return;
+    }
+    if (OrderBy == "OrderById") FilteredData.sort((A, B) => A.id - B.id);
+    if (OrderBy == "OrderByName") FilteredData.sort((A, B) => A.name.localeCompare(B.name));
+    if (!(Filter == "FilterAll")) FilteredData = FilteredData.filter((E) => E.apiTypes.some(F => F.name === FilterValue));
+    UpdatePageList("Pokémon filtrées et ordonées ");
+}
+
+function ResetList() {
+    IsListingFavorites = false;
+    FilteredData = [...Data];
+    UpdatePageList();
+}
+function UpdatePageList(text = null) {
+    PagesMax = Math.floor(FilteredData.length / PageLength);
+    DomPageTotal.textContent = "/ " + (PagesMax + 1);
+    DomPageNumber.max = PagesMax+1;
+    if (text == null) document.getElementById("ListTitle").textContent = "Tous les Pokémons ("+Data.length+") :";
+    else document.getElementById("ListTitle").textContent = text+"("+FilteredData.length+") :";
+    CreatePokemonCardList();
+    DomPageNumber.value = 1;
+    ChangePageNumber();
 }
 
 function CheckLocalStorageFavorite() {
@@ -305,35 +357,6 @@ function IsJsonString(str) {
     }
     return true;
 }
-function DisplayFavoriteList() {
-    if (IsListingFavorites) {
-        ResetList();
-        return;
-    }
-    IsListingFavorites = true;
-    const FavoritePokemon = JSON.parse(localStorage.getItem ("FavoritePokemon"));
-    FilteredData = [];
-    for (let i = 0; i < FavoritePokemon.PokemonList.length; i++) {
-        FilteredData.push(Data[FavoritePokemon.PokemonList[i] - 1]);
-    }
-    PagesMax = Math.floor(FilteredData.length / PageLength);
-    DomPageTotal.textContent = "/ " + (PagesMax + 1);
-    DomPageNumber.max = PagesMax+1;
-    CreatePokemonCardList();
-    DomPageNumber.value = 1;
-    ChangePageNumber();
-}
-function ResetList() {
-    IsListingFavorites = false;
-    FilteredData = Data;
-    PagesMax = Math.floor(FilteredData.length / PageLength);
-    DomPageTotal.textContent = "/ " + (PagesMax + 1);
-    DomPageNumber.max = PagesMax+1;
-    CheckLocalStorageFavorite();
-    CreatePokemonCardList();
-    DomPageNumber.value = 1;
-    ChangePageNumber();
-}
 function RemoveArrayData(array, value) {
     let index = array.indexOf(value);
     if (index !== -1) {
@@ -345,18 +368,16 @@ function RemoveArrayData(array, value) {
 function Start() {
     // fetch("https://pokebuildapi.fr/api/v1/pokemon")
     fetch ("./pokemon.json")
-    .then(data => data.json())
+    .then(data => {
+        if (data.ok) return data.json();
+        else ShowError("Erreur de connexion avec l'api, veuillez réessayer plus tard.");
+    })
     .then(json => {
         Data = JSON.parse(JSON.stringify(json));
-        FilteredData = Data;
-        PagesMax = Math.floor(FilteredData.length / PageLength);
-        DomPageTotal.textContent = "/ " + (PagesMax + 1);
-        DomPageNumber.max = PagesMax+1;
-        CheckLocalStorageFavorite();
-        CreatePokemonCardList();
-        DomPageNumber.value = 1;
-        ChangePageNumber();
+        FilteredData = [...Data];
+        UpdatePageList();
     })
     .catch(error => console.log(error));
 }
 Start();
+

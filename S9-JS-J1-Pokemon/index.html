@@ -14,12 +14,42 @@
        <p class="HeaderMainText">The Basic Pokedex</p>
        <div class="HeaderDiv">
             <div class="HeaderSearchBar"><input id="SearchBar" type="text"><button id="SearchButton"><img class="ButtonIcon" src="./icons/search.svg" alt="Bouton de recherche"></button></div>
-            <div class="HeaderFilterButton"><button><img class="ButtonIcon" src="./icons/filter-square.svg" alt="Bouton de filtres"></button></div>
+            <div class="HeaderFilterButton">
+                <button id="FiltersButton"><img class="ButtonIcon" src="./icons/filter-square.svg" alt="Bouton de filtres"></button>
+                <form id="FiltersMenu" method="post"  style="display: none;">
+                    <p>Ordoner par :</p>
+                    <div><input type="radio" name="OrderBy" id="OrderById" value="OrderById" checked><label for="OrderById">Id</label></div>
+                    <div><input type="radio" name="OrderBy" id="OrderByName" value="OrderByName"><label for="OrderByName">Alphabétique</label></div>
+                    
+                    <p>Filter par type :</p>
+                    <select name="FilterType" id="FilterType">
+                        <option value="FilterAll" selected>Tous</option>
+                        <option value="FilterNormal">Normal</option>
+                        <option value="FilterCombat">Combat</option>
+                        <option value="FilterVol">Vol</option>
+                        <option value="FilterPoison">Poison</option>
+                        <option value="FilterSol">Sol</option>
+                        <option value="FilterRoche">Roche</option>
+                        <option value="FilterInsecte">Insecte</option>
+                        <option value="FilterSpectre">Spectre</option>
+                        <option value="FilterAcier">Acier</option>
+                        <option value="FilterFeu">Feu</option>
+                        <option value="FilterPlante">Plante</option>
+                        <option value="FilterÉlectrik">Électrik</option>
+                        <option value="FilterPsy">Psy</option>
+                        <option value="FilterGlace">Glace</option>
+                        <option value="FilterDragon">Dragon</option>
+                        <option value="FilterTénèbres">Ténèbres</option>
+                        <option value="FilterFée">Fée</option>
+                    </select>
+                    <button type="submit">Filtrer</button>
+                </form>
+            </div>
             <div class="HeaderFavoriteButton"><button id="Favorite"><img class="ButtonIcon" src="./icons/star-half.svg" alt="Bouton des Favoris"></button></div>
        </div>
     </header>
     <main>
-        <h1></h1>
+        <h1 id="ListTitle"></h1>
         <section id="CardList"></section>
         <section class="PokemonDetails" id="Details" style="display: none">
             <img class="DetailsClose" id="CloseWindowButton" src="./icons/x-circle-fill.svg" alt="Icône fermer la fenêtre">

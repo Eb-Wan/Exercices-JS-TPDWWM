@@ -35,6 +35,7 @@ button {
     align-items: center;
     justify-content: space-around;
     background-color: var(--blue);
+    color: var(--bright);
     border: none;
     height: 40px;
     border-radius: 10px;
@@ -48,7 +49,6 @@ button:hover:not(:disabled) {
 button:disabled {
     background-color: var(--grey);
 }
-
 .ButtonIcon {
     filter: brightness(0) saturate(100%) invert(100%) sepia(20%) saturate(7451%) hue-rotate(178deg) brightness(111%) contrast(113%);
     width: 25px;
@@ -119,10 +119,36 @@ header {
 .HeaderSearchBar button:hover {
     background-color: var(--darkblue);
 }
-/* .HeaderFilterButton {
-
+.HeaderFilterButton {
+    position: relative;
 }
-.HeaderFavoriteButton {
+#FiltersMenu {
+    position: absolute;
+    top: 50px;
+    left: -70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+
+    width: 180px;
+    padding: 20px;
+    border-radius: 20px;
+
+    background-color: var(--bright);
+    box-sizing: border-box;
+    border: var(--blue) 2px solid;
+}
+#FiltersMenu > div{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+}
+
+
+/* .HeaderFavoriteButton {
 
 } */
 
