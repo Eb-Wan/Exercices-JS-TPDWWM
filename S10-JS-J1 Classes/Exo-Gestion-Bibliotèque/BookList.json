@@ -1,0 +1,404 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "Le Petit Prince",
+            "author": "Antoine de Saint-Exupéry",
+            "year": 1943,
+            "isBorrowed": false,
+            "shortDescription": "Un conte intemporel sur l'enfance, l'amour et l'amitié."
+        },
+        {
+            "id": 2,
+            "title": "L'Étranger",
+            "author": "Albert Camus",
+            "year": 1942,
+            "isBorrowed": true,
+            "shortDescription": "Un roman philosophique qui explore l'absurdité de la condition humaine."
+        },
+        {
+            "id": 3,
+            "title": "Les Misérables",
+            "author": "Victor Hugo",
+            "year": 1862,
+            "isBorrowed": false,
+            "shortDescription": "Une épopée sociale et historique autour de la justice et de la rédemption."
+        },
+        {
+            "id": 4,
+            "title": "Notre-Dame de Paris",
+            "author": "Victor Hugo",
+            "year": 1831,
+            "isBorrowed": true,
+            "shortDescription": "Un roman gothique captivant autour de la célèbre cathédrale parisienne."
+        },
+        {
+            "id": 5,
+            "title": "La Nuit des Temps",
+            "author": "René Barjavel",
+            "year": 1968,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire d'amour tragique et de science-fiction en Antarctique."
+        },
+        {
+            "id": 6,
+            "title": "Fondation",
+            "author": "Isaac Asimov",
+            "year": 1951,
+            "isBorrowed": true,
+            "shortDescription": "Une saga de science-fiction sur l'effondrement et la renaissance d'un empire galactique."
+        },
+        {
+            "id": 7,
+            "title": "La Horde du Contrevent",
+            "author": "Alain Damasio",
+            "year": 2004,
+            "isBorrowed": false,
+            "shortDescription": "Un roman épique et poétique sur une quête dans un monde balayé par des vents extrêmes."
+        },
+        {
+            "id": 8,
+            "title": "Le Meilleur des Mondes",
+            "author": "Aldous Huxley",
+            "year": 1932,
+            "isBorrowed": true,
+            "shortDescription": "Une dystopie visionnaire sur une société de consommation poussée à l'extrême."
+        },
+        {
+            "id": 9,
+            "title": "Dune",
+            "author": "Frank Herbert",
+            "year": 1965,
+            "isBorrowed": false,
+            "shortDescription": "Une épopée de science-fiction sur la lutte pour le contrôle d'une planète désertique."
+        },
+        {
+            "id": 10,
+            "title": "Sapiens : Une brève histoire de l'humanité",
+            "author": "Yuval Noah Harari",
+            "year": 2011,
+            "isBorrowed": false,
+            "shortDescription": "Un essai fascinant sur l'évolution de l'espèce humaine."
+        },
+        {
+            "id": 11,
+            "title": "Livre imaginaire 11",
+            "author": "Auteur fictif 11",
+            "year": 1911,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 11, écrite avec imagination."
+        },
+        {
+            "id": 12,
+            "title": "Livre imaginaire 12",
+            "author": "Auteur fictif 12",
+            "year": 1912,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 12, écrite avec imagination."
+        },
+        {
+            "id": 13,
+            "title": "Livre imaginaire 13",
+            "author": "Auteur fictif 13",
+            "year": 1913,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 13, écrite avec imagination."
+        },
+        {
+            "id": 14,
+            "title": "Livre imaginaire 14",
+            "author": "Auteur fictif 14",
+            "year": 1914,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 14, écrite avec imagination."
+        },
+        {
+            "id": 15,
+            "title": "Livre imaginaire 15",
+            "author": "Auteur fictif 15",
+            "year": 1915,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 15, écrite avec imagination."
+        },
+        {
+            "id": 16,
+            "title": "Livre imaginaire 16",
+            "author": "Auteur fictif 16",
+            "year": 1916,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 16, écrite avec imagination."
+        },
+        {
+            "id": 17,
+            "title": "Livre imaginaire 17",
+            "author": "Auteur fictif 17",
+            "year": 1917,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 17, écrite avec imagination."
+        },
+        {
+            "id": 18,
+            "title": "Livre imaginaire 18",
+            "author": "Auteur fictif 18",
+            "year": 1918,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 18, écrite avec imagination."
+        },
+        {
+            "id": 19,
+            "title": "Livre imaginaire 19",
+            "author": "Auteur fictif 19",
+            "year": 1919,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 19, écrite avec imagination."
+        },
+        {
+            "id": 20,
+            "title": "Livre imaginaire 20",
+            "author": "Auteur fictif 20",
+            "year": 1920,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 20, écrite avec imagination."
+        },
+        {
+            "id": 21,
+            "title": "Livre imaginaire 21",
+            "author": "Auteur fictif 21",
+            "year": 1921,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 21, écrite avec imagination."
+        },
+        {
+            "id": 22,
+            "title": "Livre imaginaire 22",
+            "author": "Auteur fictif 22",
+            "year": 1922,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 22, écrite avec imagination."
+        },
+        {
+            "id": 23,
+            "title": "Livre imaginaire 23",
+            "author": "Auteur fictif 23",
+            "year": 1923,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 23, écrite avec imagination."
+        },
+        {
+            "id": 24,
+            "title": "Livre imaginaire 24",
+            "author": "Auteur fictif 24",
+            "year": 1924,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 24, écrite avec imagination."
+        },
+        {
+            "id": 25,
+            "title": "Livre imaginaire 25",
+            "author": "Auteur fictif 25",
+            "year": 1925,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 25, écrite avec imagination."
+        },
+        {
+            "id": 26,
+            "title": "Livre imaginaire 26",
+            "author": "Auteur fictif 26",
+            "year": 1926,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 26, écrite avec imagination."
+        },
+        {
+            "id": 27,
+            "title": "Livre imaginaire 27",
+            "author": "Auteur fictif 27",
+            "year": 1927,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 27, écrite avec imagination."
+        },
+        {
+            "id": 28,
+            "title": "Livre imaginaire 28",
+            "author": "Auteur fictif 28",
+            "year": 1928,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 28, écrite avec imagination."
+        },
+        {
+            "id": 29,
+            "title": "Livre imaginaire 29",
+            "author": "Auteur fictif 29",
+            "year": 1929,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 29, écrite avec imagination."
+        },
+        {
+            "id": 30,
+            "title": "Livre imaginaire 30",
+            "author": "Auteur fictif 30",
+            "year": 1930,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 30, écrite avec imagination."
+        },
+        {
+            "id": 31,
+            "title": "Livre imaginaire 31",
+            "author": "Auteur fictif 31",
+            "year": 1931,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 31, écrite avec imagination."
+        },
+        {
+            "id": 32,
+            "title": "Livre imaginaire 32",
+            "author": "Auteur fictif 32",
+            "year": 1932,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 32, écrite avec imagination."
+        },
+        {
+            "id": 33,
+            "title": "Livre imaginaire 33",
+            "author": "Auteur fictif 33",
+            "year": 1933,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 33, écrite avec imagination."
+        },
+        {
+            "id": 34,
+            "title": "Livre imaginaire 34",
+            "author": "Auteur fictif 34",
+            "year": 1934,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 34, écrite avec imagination."
+        },
+        {
+            "id": 35,
+            "title": "Livre imaginaire 35",
+            "author": "Auteur fictif 35",
+            "year": 1935,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 35, écrite avec imagination."
+        },
+        {
+            "id": 36,
+            "title": "Livre imaginaire 36",
+            "author": "Auteur fictif 36",
+            "year": 1936,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 36, écrite avec imagination."
+        },
+        {
+            "id": 37,
+            "title": "Livre imaginaire 37",
+            "author": "Auteur fictif 37",
+            "year": 1937,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 37, écrite avec imagination."
+        },
+        {
+            "id": 38,
+            "title": "Livre imaginaire 38",
+            "author": "Auteur fictif 38",
+            "year": 1938,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 38, écrite avec imagination."
+        },
+        {
+            "id": 39,
+            "title": "Livre imaginaire 39",
+            "author": "Auteur fictif 39",
+            "year": 1939,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 39, écrite avec imagination."
+        },
+        {
+            "id": 40,
+            "title": "Livre imaginaire 40",
+            "author": "Auteur fictif 40",
+            "year": 1940,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 40, écrite avec imagination."
+        },
+        {
+            "id": 41,
+            "title": "Livre imaginaire 41",
+            "author": "Auteur fictif 41",
+            "year": 1941,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 41, écrite avec imagination."
+        },
+        {
+            "id": 42,
+            "title": "Livre imaginaire 42",
+            "author": "Auteur fictif 42",
+            "year": 1942,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 42, écrite avec imagination."
+        },
+        {
+            "id": 43,
+            "title": "Livre imaginaire 43",
+            "author": "Auteur fictif 43",
+            "year": 1943,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 43, écrite avec imagination."
+        },
+        {
+            "id": 44,
+            "title": "Livre imaginaire 44",
+            "author": "Auteur fictif 44",
+            "year": 1944,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 44, écrite avec imagination."
+        },
+        {
+            "id": 45,
+            "title": "Livre imaginaire 45",
+            "author": "Auteur fictif 45",
+            "year": 1945,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 45, écrite avec imagination."
+        },
+        {
+            "id": 46,
+            "title": "Livre imaginaire 46",
+            "author": "Auteur fictif 46",
+            "year": 1946,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 46, écrite avec imagination."
+        },
+        {
+            "id": 47,
+            "title": "Livre imaginaire 47",
+            "author": "Auteur fictif 47",
+            "year": 1947,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 47, écrite avec imagination."
+        },
+        {
+            "id": 48,
+            "title": "Livre imaginaire 48",
+            "author": "Auteur fictif 48",
+            "year": 1948,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 48, écrite avec imagination."
+        },
+        {
+            "id": 49,
+            "title": "Livre imaginaire 49",
+            "author": "Auteur fictif 49",
+            "year": 1949,
+            "isBorrowed": false,
+            "shortDescription": "Une histoire captivante autour du thème 49, écrite avec imagination."
+        },
+        {
+            "id": 50,
+            "title": "Livre imaginaire 50",
+            "author": "Auteur fictif 50",
+            "year": 1950,
+            "isBorrowed": true,
+            "shortDescription": "Une histoire captivante autour du thème 50, écrite avec imagination."
+        }
+    ]
+}

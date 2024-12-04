@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Bibliotèque</title>
+    <script src="script.js" defer></script>
+    <style>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px black dotted;
+            height: 40px;
+            margin-top: 30px;
+        }
+        header div:nth-child(1) {
+            height: 80px;
+            border: 1px black solid;
+            background-color: white;
+            text-align: center;
+        }
+        header div:nth-child(2) {
+            display: flex;
+            align-items: center;
+        }
+        header div * {
+            margin: 4px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        h2 {
+            font-size: 16px;
+        }
+        h3 {
+            font-size: 12px;
+        }
+        .DefaultText {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 50%;
+            text-shadow: #00000055 5px 5px 5px;
+            flex-direction: column;
+            height: 50vh;
+        }
+        .Larger {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .Window {
+            margin: 40px;
+            border: black 1px solid;
+        }
+        .WindowHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: black 1px dotted;
+            box-sizing: border-box;
+            font-weight: bold;
+            padding: 10px;
+            width: 100%;
+        }
+        .WindowHeader button {
+            width: 40px;
+            aspect-ratio: 4/3;
+            font-weight: bold;
+        }
+        .Window > div {
+            display: flex;
+            
+            box-sizing: border-box;
+            padding: 10px;
+        }
+        .Window > div > div {
+            box-sizing: border-box;
+            padding: 20px;
+        }
+        .WindowBodyLeft > input {
+            width: 100%;
+        }
+        .WindowBodyLeft > div {
+            display: flex;
+            flex-direction: column;
+        }
+        #IdBookList {
+            height: 60vh;
+            overflow: scroll;
+        }
+        #IdBookList div {
+            display: flex;
+            flex-direction: column;
+            margin: 8px;
+        }
+        #IdBookList div:nth-child(odd) {
+            background-color: lightgrey;
+        }
+        #IdBookList div:hover {
+            cursor: pointer;
+            background-color: grey;
+        }
+
+        .PopupWindow {
+            position: absolute;
+            top: 50vh;
+            left: 50vw;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 300px;
+            height: 150px;
+
+            font-weight: bold;
+            font-size: 1.5em;
+
+            transform: translate(-50%, -50%);
+            border: 1px solid black;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div><h1>La Bibliotèque</h1><h2>d'Alexandrie mais sans le feu</h2><h3>(C'est mieux comme ça)</h3></div>
+        <div>
+            <button id="IdBorrowButton">Emprunter</button>
+            <button id="IdReturnButton">Rendre</button>
+            <button id="IdAddButton">Ajouter</button>
+            <button id="IdRemoveButton">Supprimer</button></div>
+    </header>
+    <main>
+        <section class="DefaultText">
+            <p class="Larger">La Bibliotèque</p>
+            <p>Pour commencer, cliquez sur un bouton en haut à droite.</p>
+        </section>
+    </main>
+</body>
+</html>
