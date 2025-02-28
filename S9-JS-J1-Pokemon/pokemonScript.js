@@ -328,6 +328,7 @@ function UpdatePageList(text = null) {
 
 function CheckLocalStorageFavorite() {
     let FavoriteList = localStorage.getItem ("FavoritePokemon");
+    if (!FavoriteList) localStorage.setItem ("FavoritePokemon", '{"PokemonList":[]}');
     if (IsJsonString(FavoriteList) == false) {
         if (CheckLocalStorageError) return;
         CheckLocalStorageError = true;
@@ -375,6 +376,7 @@ function Start() {
     .then(json => {
         Data = JSON.parse(JSON.stringify(json));
         FilteredData = [...Data];
+        CheckLocalStorageFavorite();
         UpdatePageList();
     })
     .catch(error => console.log(error));
